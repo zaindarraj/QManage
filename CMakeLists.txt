@@ -18,11 +18,13 @@ qt_add_qml_module(appQManage
     QML_FILES
         Main.qml
         RESOURCES android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml android/gradle/wrapper/gradle-wrapper.jar android/gradle/wrapper/gradle-wrapper.properties android/gradle.properties android/gradlew android/gradlew.bat
+        android/res/values/themes.xml
         QML_FILES
         SOURCES
         QML_FILES qml/Man.qml
 )
 add_subdirectory(Welcome/)
+add_subdirectory(Android/)
 set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports CACHE STRING "" FORCE)
 
 
@@ -39,7 +41,7 @@ set_target_properties(appQManage PROPERTIES
 )
 
 target_link_libraries(appQManage
-    PRIVATE Qt6::Quick  welcome_libplugin
+    PRIVATE Qt6::Quick  welcome_libplugin android_libplugin
 )
 
 include(GNUInstallDirs)

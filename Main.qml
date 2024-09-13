@@ -1,6 +1,7 @@
 import QtQuick
 import QManage
 import Welcome
+import Android
 
 Window {
     width: 640
@@ -8,7 +9,25 @@ Window {
     visible: true
     title: qsTr("QManage")
 
-    Welcome {
-        anchors.centerIn: parent
+    SplashScreenController {
+        id: splashScreenController
+    }
+
+    Loader {
+        anchors.fill: parent
+        sourceComponent: welcome
+        asynchronous: true
+        visible: status == Loader.Ready
+        onLoaded: {
+            if (Qt.platform.os == "android") {
+                splashScreenController.removeSplashScreen()
+            }
+        }
+    }
+    Component {
+        id: welcome
+        Welcome {
+            anchors.centerIn: parent
+        }
     }
 }
