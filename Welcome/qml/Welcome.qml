@@ -1,32 +1,67 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Shapes
 
 Rectangle {
+    id: welocmeRootElement
+    color: systemTheme.mid
+    property double finalAnimationWidth: welocmeRootElement.width * 0.5
 
-    ColumnLayout {
-        anchors.centerIn: parent
+    onWidthChanged: {
+        animation.stop()
+        animation.start()
+    }
 
-        Text {
-            id: welcome
-            text: qsTr("Welcome To QManage")
-            Layout.alignment: Qt.AlignCenter
-        }
-
-        RowLayout {
-            Layout.alignment: Qt.AlignCenter
-
-            Button {
-                id: navToSignIn
-                text: qsTr("Sign In")
-                Layout.alignment: Qt.AlignCenter
+    states: [
+        State {
+            name: "ShortSHeight"
+            when: welocmeRootElement.height < 500
+            PropertyChanges {
+                target: layout
+                height: animatedShape.height * 0.3
             }
-
-            Button {
-                id: navToSignUp
-                text: qsTr("Sign Up")
-                Layout.alignment: Qt.AlignCenter
+        },
+        State {
+            name: "LongHeight"
+            when: welocmeRootElement.height >= 500
+            PropertyChanges {
+                target: layout
+                height: animatedShape.height * 0.15
             }
         }
+    ]
+
+    property double startX: width * 0.5
+
+    RowLayout {
+        anchors.fill: parent
+
+        SignInForum {
+            Layout.alignment: Qt.AlignCenter
+            spacing: 5
+        }
+        MyAnimatedShape {
+            id: animatedShape
+            Layout.preferredHeight: welocmeRootElement.height
+
+            Layout.preferredWidth: 0
+            Layout.alignment: Qt.AlignRight
+            WelcomeLayout {
+                id: layout
+                width: animatedShape.width * 0.4
+                anchors.centerIn: parent
+            }
+        }
+    }
+
+    //Animation Controller for the shape
+    NumberAnimation {
+        id: animation
+        targets: [animatedShape]
+        property: "Layout.preferredWidth"
+        duration: 500
+        to: finalAnimationWidth
+        running: true
     }
 }
