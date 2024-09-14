@@ -8,7 +8,7 @@ ColumnLayout {
     id: layout
 
     Text {
-        text: "Q-Manage"
+        text: "Q-Manage Me"
         font.bold: true
         Layout.preferredHeight: layout.height * 0.2
         wrapMode: Text.WordWrap
