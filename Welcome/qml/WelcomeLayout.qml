@@ -84,21 +84,5 @@ ColumnLayout {
                 source: "/insta.png"
             }
         }
-        ToolButton {
-            Layout.preferredHeight: 20
-            Layout.preferredWidth: 20
-            Layout.alignment: Qt.AlignCenter
-
-            Image {
-                smooth: true
-                layer.samples: 8
-                sourceSize: Qt.size(30, 30)
-
-                layer.enabled: true
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
-                source: "/insta.png"
-            }
-        }
     }
 }
