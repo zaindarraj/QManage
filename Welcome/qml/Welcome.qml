@@ -72,4 +72,10 @@ Rectangle {
         to: finalAnimationWidth
         running: true
     }
+
+    Button {
+        text: qsTr("Don't have an account? Sign up")
+        flat: true
+        anchors.bottom: parent.bottom
+    }
 }
