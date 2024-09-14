@@ -7,6 +7,7 @@ Rectangle {
     id: welocmeRootElement
     color: systemTheme.mid
     property double finalAnimationWidth: welocmeRootElement.width * 0.5
+    property double heightUpperLimit: 650
 
     onWidthChanged: {
         animation.stop()
@@ -16,15 +17,15 @@ Rectangle {
     states: [
         State {
             name: "ShortSHeight"
-            when: welocmeRootElement.height < 500
+            when: welocmeRootElement.height < heightUpperLimit
             PropertyChanges {
                 target: layout
-                height: animatedShape.height * 0.3
+                height: animatedShape.height * 0.24
             }
         },
         State {
             name: "LongHeight"
-            when: welocmeRootElement.height >= 500
+            when: welocmeRootElement.height >= heightUpperLimit
             PropertyChanges {
                 target: layout
                 height: animatedShape.height * 0.15
@@ -37,10 +38,17 @@ Rectangle {
     RowLayout {
         anchors.fill: parent
 
-        SignInForum {
+        Item {
             Layout.alignment: Qt.AlignCenter
-            spacing: 5
+            Layout.preferredWidth: parent.width * 0.5
+
+            SignInForum {
+                spacing: 5
+                anchors.centerIn: parent
+                width: parent.width * 0.7
+            }
         }
+
         MyAnimatedShape {
             id: animatedShape
             Layout.preferredHeight: welocmeRootElement.height

@@ -7,9 +7,10 @@ Window {
     id: rootWindow
     width: 640
     height: 480
-    minimumHeight: height
-    minimumWidth: width
+    minimumHeight: 480
+    minimumWidth: 640
     visible: true
+    color: systemTheme.mid
     title: qsTr("QManage")
 
     SystemPalette {
