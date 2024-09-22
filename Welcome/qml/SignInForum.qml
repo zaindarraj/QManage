@@ -8,7 +8,7 @@ ColumnLayout {
     property string password
 
     Text {
-        text: qsTr("Sign in now")
+        text: qsTr("Sign in")
         color: systemTheme.text
         font.pixelSize: 21
         Layout.alignment: Qt.AlignCenter
