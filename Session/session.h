@@ -3,36 +3,38 @@
 
 #include <QObject>
 #include<token.h>
+#include<QMutex>
+#include<QSharedPointer>
+
 class Session : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(Token accessToken MEMBER _accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged FINAL)
 public:
-    static std::optional<Session*> getInstance(){
+    inline static Session* getInstance(){
         if(session == nullptr){
-            return {};
+            session = new Session();
         }
           return session;
     }
-    static void init(QObject* parent = nullptr){
-            session = new Session(parent);
-    }
-    const Token& accessToken();
 
-
-
-signals:
-    void accessTokenChanged(const Token& token);
+const QString getAccessToken();
+const QString getRefreshToken();
+const bool isRefreshing(){
+    return refreshing;
+}
 
 public slots :
-    void setAccessToken(const Token& token);
+void refreshAccessToken();
 
 
 private:
-    explicit Session(QObject *parent = nullptr);
+    Session(QObject* parent = nullptr);
     static Session*session;
-    Token _accessToken;
-    Token refreshToken;
+    Token* accessToken;
+    Token* refreshToken;
+    bool refreshing=false;
+    QMutex refrshingMutex;
+
+
 };
 
 #endif // SESSION_H

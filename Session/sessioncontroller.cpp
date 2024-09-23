@@ -1,18 +1,43 @@
 #include "sessioncontroller.h"
+#include<token.h>
+#include<session.h>
 
 SessionController::SessionController(QObject *parent)
     : QObject{parent}
 {
-
-   if(Session::getInstance().has_value()){
-        session = Session::getInstance().value();
-   }{
-       //init here may delete this later
-       Session::init(parent);
-   }
+    QFuture<void> future = QtConcurrent::run([=] {
+        SessionController::initSession();
+    });
 }
 
-Token SessionController::getAccessToken()
+
+ const QString& SessionController::accessToken()
 {
-    return session->getAccessToken();
+
+        return _accessToken;
+ }
+
+ const QString&  SessionController::refresherToken()
+{
+
+    return _refrsherToken;
 }
+
+void SessionController::setAccessToken(const QString& token)
+{
+        _accessToken = token;
+}
+
+void SessionController::setRefresherToken(const QString& token)
+{
+         _refrsherToken = token;
+}
+
+
+void SessionController::initSession()
+{
+    Session::getInstance();
+
+}
+
+

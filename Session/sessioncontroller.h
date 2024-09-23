@@ -2,23 +2,35 @@
 #define SESSIONCONTROLLER_H
 
 #include <QObject>
-#include<session.h>
+#include<QWeakPointer>
+#include <QSharedPointer>
+
+#include<QtConcurrent/QtConcurrentRun>
+class Token;
+class Session;
 class SessionController : public QObject
 {
     Q_OBJECT
 public:
     explicit SessionController(QObject *parent = nullptr);
-    Q_INVOKABLE Token getAccessToken();
-    Q_INVOKABLE Token getRefreshToken();
+    const QString& accessToken();
+    const QString&  refresherToken();
 
+
+public slots :
+    void setAccessToken( const QString& );
+    void setRefresherToken( const QString& );
 
 signals:
     void sessionExpired();
-    void sesison();
+    void tokenRefreshed();
+    void sessionReady();
 
 private :
-    Session * session;
+    QString _accessToken;
+    QString _refrsherToken;
 
+    static void initSession();
 };
 
 #endif // SESSIONCONTROLLER_H

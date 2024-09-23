@@ -4,7 +4,7 @@ project(QManage VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Concurrent)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -44,7 +44,7 @@ set_target_properties(appQManage PROPERTIES
 )
 
 target_link_libraries(appQManage
-    PRIVATE Qt6::Quick  welcome_libplugin android_libplugin resources_libplugin Sessionplugin
+    PRIVATE Qt6::Quick Qt6::Concurrent welcome_libplugin android_libplugin resources_libplugin Sessionplugin
 )
 
 include(GNUInstallDirs)

@@ -11,13 +11,15 @@ class Token
 {
 public:
     Token();
+    inline ~Token() {} // VIOLATION - Destructor must not be inline
 
-private :
     token_type tokenType;
     //Berear etc
     QString authType;
     QString token;
     QDate expiresAt;
+private :
+
 
 
 };
