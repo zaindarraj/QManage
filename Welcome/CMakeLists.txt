@@ -12,11 +12,13 @@ QML_FILES qml/Welcome.qml
 QML_FILES qml/MyAnimatedShape.qml
 QML_FILES qml/WelcomeLayout.qml
 QML_FILES qml/SignInForum.qml
+SOURCES
+SOURCES
 
 )
 
 target_link_libraries(welcome_lib
-    PRIVATE resources_libplugin
+    PRIVATE resources_libplugin Sessionplugin
 )
 
 set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml  ${CMAKE_BINARY_DIR}/imports ${CMAKE_BINARY_DIR}/qml CACHE STRING "" FORCE)

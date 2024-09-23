@@ -9,6 +9,16 @@ SOURCES sessioncontroller.h sessioncontroller.cpp
 SOURCES session.h session.cpp
 SOURCES
 SOURCES token.h token.cpp
+SOURCES sessionrepository.h sessionrepository.cpp
+SOURCES
+SOURCES localrepository.h localrepository.cpp
+SOURCES remoterepository.h remoterepository.cpp
+SOURCES accessmanageraccessor.h accessmanageraccessor.cpp
+)
+
+
+target_link_libraries(Session
+    PRIVATE Qt6::Quick
 )
 
 

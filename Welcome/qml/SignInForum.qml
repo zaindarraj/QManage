@@ -2,10 +2,15 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Shapes
+import Session 1.0
 
 ColumnLayout {
     property string email
     property string password
+
+    SessionController {
+        id: sessionController
+    }
 
     Text {
         text: qsTr("Sign in")
@@ -41,5 +46,8 @@ ColumnLayout {
         text: qsTr("Sign In")
         Layout.alignment: Qt.AlignCenter
         Layout.preferredWidth: parent.width * 0.35
+        onClicked: {
+            sessionController.signIn("dddc@lgmail.co", "123456789.")
+        }
     }
 }

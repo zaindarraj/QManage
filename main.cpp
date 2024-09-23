@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlExtensionPlugin>
 #include<Session/sessioncontroller.h>
+#include<Session/accessmanageraccessor.h>
 int main(int argc, char *argv[])
 {
 
@@ -11,7 +12,7 @@ int main(int argc, char *argv[])
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
                      &app, []() { QCoreApplication::exit(-1); },
     Qt::QueuedConnection);
-    SessionController *sessionController = new SessionController();
+    AccessManagerAccessor::init(&engine);
 
     engine.loadFromModule("QManage", "Main");
 

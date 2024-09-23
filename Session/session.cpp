@@ -4,27 +4,25 @@
 
 
 
-const QString Session::getAccessToken()
+Token* Session::getAccessToken()
 {
 
-    return accessToken->token;
+    return accessToken;
 }
 
-const QString Session::getRefreshToken()
+Token* Session::getRefreshToken()
 {
-    return refreshToken->token;
+    return refreshToken;
+}
+
+void Session::setAccessToken(const Token&& token)
+{
+    accessToken = new Token(std::move(token));
 }
 
 void Session::refreshAccessToken()
 {
-    if(!refreshing){
-        //make sure no other thread got to the variable at the same time as this one
-        if(refrshingMutex.tryLock()){
-                refreshing = true;
-                //Do the refresh request
-        }
 
-    }
 }
 
 Session::Session(QObject* parent) : QObject(parent)

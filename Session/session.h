@@ -16,11 +16,10 @@ public:
           return session;
     }
 
-const QString getAccessToken();
-const QString getRefreshToken();
-const bool isRefreshing(){
-    return refreshing;
-}
+Token* getAccessToken();
+
+Token* getRefreshToken();
+void setAccessToken(const Token&& token);
 
 public slots :
 void refreshAccessToken();
@@ -31,7 +30,6 @@ private:
     static Session*session;
     Token* accessToken;
     Token* refreshToken;
-    bool refreshing=false;
     QMutex refrshingMutex;
 
 
