@@ -14,6 +14,7 @@ SOURCES
 SOURCES localrepository.h localrepository.cpp
 SOURCES remoterepository.h remoterepository.cpp
 SOURCES accessmanageraccessor.h accessmanageraccessor.cpp
+SOURCES sessionState.h
 )
 
 

@@ -8,13 +8,14 @@
 #include<QJsonObject>
 #include<QJsonDocument>
 #include<accessmanageraccessor.h>
+#include<token.h>
 
 class RemoteRepository : public QObject
 {
     Q_OBJECT
 public:
     explicit RemoteRepository(QObject *parent = nullptr);
-    void signIn(const QString& email, const QString& password);
+    QNetworkReply* signIn(const QString& email, const QString& password);
 
 signals:
 

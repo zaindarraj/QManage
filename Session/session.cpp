@@ -15,9 +15,15 @@ Token* Session::getRefreshToken()
     return refreshToken;
 }
 
-void Session::setAccessToken(const Token&& token)
+void Session::setAccessToken(const Token& token)
 {
     accessToken = new Token(std::move(token));
+}
+
+void Session::setRefreshToken(const Token &token)
+{
+    refreshToken = new Token(std::move(token));
+
 }
 
 void Session::refreshAccessToken()

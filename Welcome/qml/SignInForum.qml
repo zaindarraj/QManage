@@ -10,6 +10,10 @@ ColumnLayout {
 
     SessionController {
         id: sessionController
+        onSessionReady: {
+            textMessage.text = "Signed Inssssssss."
+            animation.start()
+        }
     }
 
     Text {
@@ -48,6 +52,44 @@ ColumnLayout {
         Layout.preferredWidth: parent.width * 0.35
         onClicked: {
             sessionController.signIn("dddc@lgmail.co", "123456789.")
+        }
+    }
+    PaddedRectangle {
+        id: messageBox
+        color: systemTheme.dark
+        Layout.alignment: Qt.AlignCenter
+        Layout.preferredWidth: textMessage.width + 20
+        Layout.preferredHeight: textMessage.height + 20
+        border.color: systemTheme.accent
+        border.width: 1
+        radius: 5
+        opacity: 0
+
+        SequentialAnimation {
+            id: animation
+            running: false
+
+            OpacityAnimator {
+                target: messageBox
+                to: 1
+                duration: 500
+            }
+
+            PauseAnimation {
+                duration: 2000
+            }
+            OpacityAnimator {
+                target: messageBox
+                from: 1
+                to: 0
+                duration: 500
+            }
+        }
+
+        Text {
+            id: textMessage
+            anchors.centerIn: parent
+            color: systemTheme.text
         }
     }
 }

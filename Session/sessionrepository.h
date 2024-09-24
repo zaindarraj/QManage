@@ -13,10 +13,14 @@ class SessionRepository : public QObject
 public:
     explicit SessionRepository(QObject *parent = nullptr);
 
+    void signIn(const QString& email, const QString& password);
+public slots :
     std::optional<QString>  getAccessToken();
     std::optional<QString>  getRefreshToken();
-    void setToken(const Token& token);
-    void signIn(const QString& email, const QString& password);
+
+signals:
+    void sessionState(SessionState sessionState);
+
 
 
 private:

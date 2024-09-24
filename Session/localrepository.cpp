@@ -32,10 +32,21 @@ std::optional<Token> LocalRepository::getRefreshToken()
 
 }
 
-void LocalRepository::setAccessToken(const Token & token)
+void LocalRepository::writeTokens(const QJsonDocument &doc)
 {
+    QThreadPool pool;
 
-    settings.setValue("accessToken", Token::toJson(token));
+    QFuture<void> future = QtConcurrent::run([=](){
+        Token accessToken = Token::fromJson(doc["accessToken"].toObject(), token_type::ACCESS_TOKEN);
+        Token refreshToken = Token::fromJson(doc["refreshToken"].toObject(), token_type::REFRESH_TOKEN);
+        Session::getInstance()->setAccessToken(accessToken);
+        Session::getInstance()->setRefreshToken(refreshToken);
+        settings.setValue("refreshToken", Token::toJson(refreshToken).data());
+        settings.setValue("accessToken", Token::toJson(accessToken).data());
+    }).then([=]{
+        emit finishedWritingTokens(SessionState{SessionState::SIGNED_IN, "Signed In"});
+    });
+
+
 }
-
 

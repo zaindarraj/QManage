@@ -6,25 +6,23 @@
 #include<QByteArray>
 #include<QJsonDocument>
 #include<QQmlEngine>
-
-
 #include<QtConcurrent/QtConcurrentRun>
 class SessionRepository;
+class SessionState;
+
 class SessionController : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
 public:
     explicit SessionController(QObject *parent = nullptr);
-    const QString& accessToken();
-    const QString&  refresherToken();
+    QString accessToken();
+    QString refresherToken();
 
 
 public slots :
-    void setAccessToken( const QString& );
-    void setRefresherToken( const QString& );
-    void setTokens(const QByteArray&);
     void signIn(const QString& email, const QString& password);
+    void check(SessionState state);
 
 signals:
     void sessionExpired();
@@ -32,8 +30,7 @@ signals:
     void sessionReady();
 
 private :
-    QString _accessToken = "";
-    QString _refrsherToken = "";
+
     QSharedPointer<SessionRepository> sessionRepositoy;
 
 

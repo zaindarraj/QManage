@@ -2,8 +2,9 @@
 #define TOKEN_H
 #include<QString>
 #include<QDate>
-
 #include<QJsonObject>
+
+#include<QJsonDocument>
 enum token_type{
     ACCESS_TOKEN, REFRESH_TOKEN
 };
@@ -36,7 +37,7 @@ public:
     QDate expiresAt;
 
     static Token fromJson(const QJsonObject& json, const token_type& tokenType);
-    static const QJsonObject toJson(const Token&);
+    static const QByteArray toJson(const Token&);
 private :
 
 

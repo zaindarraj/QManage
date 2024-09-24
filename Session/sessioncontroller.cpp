@@ -7,44 +7,42 @@ SessionController::SessionController(QObject *parent)
     : QObject{parent}
 {
     sessionRepositoy= QSharedPointer<SessionRepository>(new SessionRepository);
-
+    connect(sessionRepositoy.get(), &SessionRepository::sessionState,this, &SessionController::check);
 }
 
 
- const QString& SessionController::accessToken()
+QString SessionController::accessToken()
 {
-        return _accessToken;
+        return sessionRepositoy->getAccessToken().value();
  }
 
- const QString&  SessionController::refresherToken()
+QString SessionController::refresherToken()
 {
 
-    return _refrsherToken;
+     return sessionRepositoy->getRefreshToken().value();
 }
 
-void SessionController::setAccessToken(const QString& token)
-{
 
-        _accessToken = token;
-}
 
-void SessionController::setRefresherToken(const QString& token)
-{
-         _refrsherToken = token;
-}
-
-void SessionController::setTokens(const QByteArray & val)
-{
-    QJsonDocument doc = QJsonDocument::fromJson(val);
-    Token accessToken = Token::fromJson(doc["accessToken"].toObject(), token_type::ACCESS_TOKEN);
-    Token refreshToken = Token::fromJson(doc["refreshToken"].toObject(), token_type::REFRESH_TOKEN);
-    sessionRepositoy.get()->setToken(accessToken);
-    qDebug()<<"access token: " << accessToken.token;
-}
 
 void SessionController::signIn(const QString &email, const QString &password)
 {
-        sessionRepositoy->signIn(email, password);
+     sessionRepositoy->signIn(email, password);
+
+}
+
+void SessionController::check(SessionState state)
+{
+        if(state .state== SessionState::SIGNED_IN){
+            //make sure tokens available in run time
+            if(sessionRepositoy->getAccessToken().has_value()){
+                    //OK -> emit session ready else error
+                emit(sessionReady());
+            }else{
+
+            }
+        }
+
 }
 
 

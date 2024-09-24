@@ -19,7 +19,8 @@ public:
 Token* getAccessToken();
 
 Token* getRefreshToken();
-void setAccessToken(const Token&& token);
+void setAccessToken(const Token& token);
+void setRefreshToken(const Token& token);
 
 public slots :
 void refreshAccessToken();

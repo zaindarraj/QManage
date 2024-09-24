@@ -5,6 +5,9 @@ SessionRepository::SessionRepository(QObject *parent)
 {
     qDebug() <<"Man";
     session = Session::getInstance();
+    connect(&localRepo, &LocalRepository::finishedWritingTokens, this,[=](SessionState state){
+        emit sessionState(state);
+    });
 }
 
 std::optional<QString> SessionRepository::getAccessToken()
@@ -20,17 +23,47 @@ std::optional<QString> SessionRepository::getAccessToken()
     return {};
 }
 
-void SessionRepository::setToken(const Token& token)
+std::optional<QString> SessionRepository::getRefreshToken()
 {
-    if(token.tokenType == token_type::ACCESS_TOKEN){
-        localRepo.setAccessToken(token);
+    if(session->getAccessToken()){
+        return session->getRefreshToken()->token;
+    }
+    if(localRepo.getRefreshToken().has_value()){
+        session->setRefreshToken(localRepo.getRefreshToken().value());
+        return session->getRefreshToken()->token;
 
     }
+    return {};
 }
+
+
 
 void SessionRepository::signIn(const QString &email, const QString &password)
 {
-    remoteRepo.signIn(email,password);
+  QNetworkReply* reply = remoteRepo.signIn(email,password);
+  connect(reply, &QNetworkReply::finished, this ,[=]() {
+
+      if(reply->error() == QNetworkReply::NoError)
+      {
+          QByteArray response = reply->readAll();
+          QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+          if(jsonDoc["accessToken"].isNull()){
+              //emite error
+              emit sessionState(SessionState{
+                                    SessionState::WRONG_PASSWORD,
+                                    "Wrong Email/Password"
+                                });
+          }else{
+              localRepo.writeTokens(jsonDoc);
+          }
+      }
+      else // handle error
+      {
+       qDebug() <<reply->error();
+      }
+      reply->deleteLater();
+  });
+
 
 }
 
