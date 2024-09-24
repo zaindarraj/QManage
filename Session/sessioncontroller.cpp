@@ -38,10 +38,11 @@ void SessionController::check(SessionState state)
             if(sessionRepositoy->getAccessToken().has_value()){
                     //OK -> emit session ready else error
                 emit(sessionReady());
-            }else{
-
+                return;
             }
         }
+
+        emit errorOccured(state.message);
 
 }
 

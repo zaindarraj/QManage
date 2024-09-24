@@ -28,6 +28,7 @@ signals:
     void sessionExpired();
     void tokenRefreshed();
     void sessionReady();
+    void errorOccured(const QString&);
 
 private :
 

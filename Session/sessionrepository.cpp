@@ -42,15 +42,16 @@ void SessionRepository::signIn(const QString &email, const QString &password)
 {
   QNetworkReply* reply = remoteRepo.signIn(email,password);
   connect(reply, &QNetworkReply::finished, this ,[=]() {
+      QByteArray response = reply->readAll();
+      QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
 
       if(reply->error() == QNetworkReply::NoError)
       {
-          QByteArray response = reply->readAll();
-          QJsonDocument jsonDoc = QJsonDocument::fromJson(response);
+
           if(jsonDoc["accessToken"].isNull()){
               //emite error
               emit sessionState(SessionState{
-                                    SessionState::WRONG_PASSWORD,
+                                    SessionState::CONNECTION_ERROR,
                                     "Wrong Email/Password"
                                 });
           }else{
@@ -59,7 +60,20 @@ void SessionRepository::signIn(const QString &email, const QString &password)
       }
       else // handle error
       {
-       qDebug() <<reply->error();
+          const QString message = jsonDoc["errors"][0]["message"].toString();
+
+          if(!message.isEmpty()){
+              emit sessionState(SessionState{
+                                    SessionState::CONNECTION_ERROR,
+                                    message
+                                });
+          }else{
+              emit sessionState(SessionState{
+                                    SessionState::CONNECTION_ERROR,
+                                    "Something went wrong, check your internet connection"
+                                });
+          }
+
       }
       reply->deleteLater();
   });

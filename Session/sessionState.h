@@ -12,7 +12,7 @@
 class SessionState {
 public :
 enum sessionState {
-    SIGNED_IN, WRONG_PASSWORD, CONNECTION_ERROR
+    SIGNED_IN, CONNECTION_ERROR
 };
 sessionState state;
 QString message;

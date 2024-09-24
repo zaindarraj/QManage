@@ -14,6 +14,7 @@ QML_FILES qml/WelcomeLayout.qml
 QML_FILES qml/SignInForum.qml
 SOURCES
 SOURCES
+QML_FILES qml/MyMessageBox.qml
 
 )
 

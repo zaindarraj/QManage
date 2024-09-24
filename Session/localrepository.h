@@ -18,11 +18,6 @@ public:
     std::optional<Token> getAccessToken();
     std::optional<Token> getRefreshToken();
 
-
-
-
-
-
 signals:
 
 public slots :

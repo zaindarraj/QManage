@@ -78,4 +78,11 @@ Rectangle {
         flat: true
         anchors.bottom: parent.bottom
     }
+
+    MyMessageBox {
+        id: messageBox
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.margins: 5
+    }
 }
