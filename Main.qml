@@ -2,6 +2,7 @@ import QtQuick
 import QManage
 import Welcome
 import Android
+import QtQuick.Controls
 
 Window {
     id: rootWindow
@@ -12,6 +13,11 @@ Window {
     visible: true
     color: systemTheme.mid
     title: qsTr("QManage")
+    Component.onCompleted: {
+        if (Qt.platform.os === "android") {
+            Material.accent = Material.Teal
+        }
+    }
 
     SystemPalette {
         id: systemTheme

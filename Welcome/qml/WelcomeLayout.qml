@@ -7,12 +7,19 @@ import Resources
 ColumnLayout {
     id: layout
 
+    function textColor() {
+        if (Qt.platform.os === "android") {
+            return Material.primaryTextColor
+        } else {
+            return systemTheme.text
+        }
+    }
+
     Text {
         text: "Q-Manage"
         font.bold: true
-        Layout.preferredHeight: layout.height * 0.2
         wrapMode: Text.WordWrap
-        color: systemTheme.text
+        color: textColor()
         fontSizeMode: Text.Fit
         minimumPixelSize: 10
         font.pixelSize: 22
@@ -22,7 +29,6 @@ ColumnLayout {
     }
     Text {
         text: "Manage Your Time Once and For All"
-        Layout.preferredHeight: layout.height * 0.2
         wrapMode: Text.WordWrap
         color: systemTheme.text
         fontSizeMode: Text.Fit
@@ -100,5 +106,11 @@ ColumnLayout {
                 source: "/insta.png"
             }
         }
+    }
+
+    Button {
+        text: qsTr("Don't have an account? Sign up")
+        flat: true
+        Layout.alignment: Qt.AlignCenter
     }
 }

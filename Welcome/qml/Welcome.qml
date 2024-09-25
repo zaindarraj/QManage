@@ -5,9 +5,12 @@ import QtQuick.Shapes
 
 Rectangle {
     id: welocmeRootElement
-    color: systemTheme.mid
+    color: systemTheme.base
     property double finalAnimationWidth: welocmeRootElement.width * 0.5
+    property double finalAnimationHeight: welocmeRootElement.height * 0.4
+
     property double heightUpperLimit: 650
+    property double startX: width * 0.5
 
     onWidthChanged: {
         animation.stop()
@@ -16,48 +19,52 @@ Rectangle {
 
     states: [
         State {
-            name: "ShortSHeight"
-            when: welocmeRootElement.height < heightUpperLimit
+            name: "Mobile"
+            when: welocmeRootElement.height > welocmeRootElement.width
             PropertyChanges {
-                target: layout
-                height: animatedShape.height * 0.24
+                target: grid
+                columns: 1
             }
         },
         State {
-            name: "LongHeight"
-            when: welocmeRootElement.height >= heightUpperLimit
+            name: "Non-Mobile"
+            when: welocmeRootElement.height < welocmeRootElement.width
             PropertyChanges {
-                target: layout
-                height: animatedShape.height * 0.15
+                target: grid
+                columns: 2
+            }
+            PropertyChanges {
+                animatedShape {
+                    Layout.preferredHeight: grid.height
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1
+                }
+                signInForum {
+                    Layout.preferredHeight: parent.height
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1
+                }
             }
         }
     ]
 
-    property double startX: width * 0.5
+    GridLayout {
+        id: grid
+        width: welocmeRootElement.width
+        height: welocmeRootElement.height
 
-    RowLayout {
-        anchors.fill: parent
-
-        Item {
+        SignInForum {
+            id: signInForum
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: parent.width * 0.5
-
-            SignInForum {
-                spacing: 5
-                anchors.centerIn: parent
-                width: parent.width * 0.7
-            }
+            Layout.preferredHeight: parent.height * 0.5
+            Layout.fillWidth: true
         }
-
         MyAnimatedShape {
             id: animatedShape
-            Layout.preferredHeight: welocmeRootElement.height
-
-            Layout.preferredWidth: 0
-            Layout.alignment: Qt.AlignRight
+            Layout.alignment: Qt.AlignBottom
+            Layout.preferredHeight: parent.height * 0.3
+            Layout.fillWidth: true
             WelcomeLayout {
-                id: layout
-                width: animatedShape.width * 0.4
                 anchors.centerIn: parent
             }
         }
@@ -66,17 +73,11 @@ Rectangle {
     //Animation Controller for the shape
     NumberAnimation {
         id: animation
-        targets: [animatedShape]
-        property: "Layout.preferredWidth"
-        duration: 500
-        to: finalAnimationWidth
-        running: true
-    }
+        running: false
+        onRunningChanged: {
 
-    Button {
-        text: qsTr("Don't have an account? Sign up")
-        flat: true
-        anchors.bottom: parent.bottom
+            console.log("an" + animatedShape.height)
+        }
     }
 
     MyMessageBox {
