@@ -12,11 +12,6 @@ Rectangle {
     property double heightUpperLimit: 650
     property double startX: width * 0.5
 
-    onWidthChanged: {
-        animation.stop()
-        animation.start()
-    }
-
     states: [
         State {
             name: "Mobile"
@@ -24,6 +19,22 @@ Rectangle {
             PropertyChanges {
                 target: grid
                 columns: 1
+            }
+
+            PropertyChanges {
+                signInForum {
+                    Layout.preferredHeight: parent.height / 2
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1
+                }
+                animatedShape {
+                    Layout.preferredWidth: parent.width
+                }
+                animation {
+                    property: "Layout.preferredHeight"
+                    from: 0
+                    to: welocmeRootElement.height * 0.3
+                }
             }
         },
         State {
@@ -35,14 +46,17 @@ Rectangle {
             }
             PropertyChanges {
                 animatedShape {
-                    Layout.preferredHeight: grid.height
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 1
+                    Layout.preferredHeight: parent.height
                 }
                 signInForum {
                     Layout.preferredHeight: parent.height
                     Layout.fillWidth: true
                     Layout.preferredWidth: 1
+                }
+                animation {
+                    property: "Layout.preferredWidth"
+                    from: 0
+                    to: welocmeRootElement.width / 2
                 }
             }
         }
@@ -62,8 +76,7 @@ Rectangle {
         MyAnimatedShape {
             id: animatedShape
             Layout.alignment: Qt.AlignBottom
-            Layout.preferredHeight: parent.height * 0.3
-            Layout.fillWidth: true
+
             WelcomeLayout {
                 anchors.centerIn: parent
             }
@@ -73,10 +86,14 @@ Rectangle {
     //Animation Controller for the shape
     NumberAnimation {
         id: animation
+        target: animatedShape
         running: false
-        onRunningChanged: {
-
-            console.log("an" + animatedShape.height)
+        onToChanged: {
+            if (animation.running) {
+                console.log("d")
+                animation.complete()
+            }
+            animation.start()
         }
     }
 

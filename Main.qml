@@ -29,8 +29,7 @@ Window {
     }
 
     Loader {
-        width: rootWindow.width
-        height: rootWindow.height
+        anchors.fill: parent
         sourceComponent: welcome
         asynchronous: true
         visible: status == Loader.Ready

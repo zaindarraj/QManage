@@ -47,11 +47,6 @@ Item {
         }
     ]
 
-    onStateChanged: {
-        console.log(state)
-        console.log(animatedShape.height)
-    }
-
     Loader {
         id: noMobileLoader
         anchors.fill: shapeItem
@@ -74,10 +69,6 @@ Item {
                 property variant styles: [ShapePath.BevelJoin, ShapePath.MiterJoin, ShapePath.RoundJoin]
 
                 joinStyle: styles[joinStyleIndex]
-
-                Component.onCompleted: {
-                    animation.start()
-                }
 
                 startX: animatedShape.width / 2
                 startY: 0
