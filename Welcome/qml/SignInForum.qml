@@ -29,7 +29,7 @@ Item {
 
         Text {
             text: qsTr("Sign in")
-            color: systemTheme.text
+            color: rootWindow.getTextColor()
             font.pixelSize: 21
             Layout.alignment: Qt.AlignCenter
         }

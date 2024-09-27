@@ -13,9 +13,20 @@ Window {
     visible: true
     color: systemTheme.mid
     title: qsTr("QManage")
+
+    function getTextColor() {
+        if (Qt.platform.os === "android") {
+            return Material.primaryTextColor
+        }
+        return systemTheme.text
+    }
+
     Component.onCompleted: {
         if (Qt.platform.os === "android") {
-            Material.accent = Material.Teal
+            Material.theme = Material.System
+
+            Material.primary = Material.Teal
+            Material.accent = Material.BlueGrey
         }
     }
 

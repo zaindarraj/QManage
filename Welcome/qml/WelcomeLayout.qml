@@ -7,21 +7,11 @@ import Resources
 ColumnLayout {
     id: layout
 
-    function textColor() {
-        if (Qt.platform.os === "android") {
-            return Material.primaryTextColor
-        } else {
-            return systemTheme.text
-        }
-    }
-
     Text {
         text: "Q-Manage"
         font.bold: true
         wrapMode: Text.WordWrap
-        color: textColor()
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 10
+        color: rootWindow.getTextColor()
         font.pixelSize: 22
         Layout.preferredWidth: layout.width
         Layout.alignment: Qt.AlignCenter
@@ -30,9 +20,7 @@ ColumnLayout {
     Text {
         text: "Manage Your Time Once and For All"
         wrapMode: Text.WordWrap
-        color: systemTheme.text
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 13
+        color: rootWindow.getTextColor()
         font.pixelSize: 22
         Layout.preferredWidth: layout.width
         Layout.alignment: Qt.AlignCenter

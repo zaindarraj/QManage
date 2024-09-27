@@ -8,7 +8,7 @@ Item {
     function primaryColor() {
 
         if (Qt.platform.os === "android") {
-            return Material.accent
+            return Material.primary
         } else {
             return systemTheme.accent
         }

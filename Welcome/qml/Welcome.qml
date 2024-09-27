@@ -5,12 +5,19 @@ import QtQuick.Shapes
 
 Rectangle {
     id: welocmeRootElement
-    color: systemTheme.base
+    color: getBase()
     property double finalAnimationWidth: welocmeRootElement.width * 0.5
     property double finalAnimationHeight: welocmeRootElement.height * 0.4
 
     property double heightUpperLimit: 650
-    property double startX: width * 0.5
+
+    function getBase() {
+        if (Qt.platform.os === "android") {
+            return Material.backgroundColor
+        } else {
+            return systemTheme.base
+        }
+    }
 
     states: [
         State {
