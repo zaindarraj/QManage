@@ -4,7 +4,7 @@ import Welcome
 import Android
 import QtQuick.Controls
 
-Window {
+ApplicationWindow {
     id: rootWindow
     width: 640
     height: 480
@@ -14,17 +14,27 @@ Window {
     color: systemTheme.mid
     title: qsTr("QManage")
 
+    SignInViewModel {
+        id: signInViewModel
+        onSuccessfull: {
+            console.log("Hey")
+        }
+        onError: error => {
+                     console.log(error)
+                 }
+    }
+
     function getTextColor() {
         if (Qt.platform.os === "android") {
             return Material.primaryTextColor
+        } else {
+            return systemTheme.text
         }
-        return systemTheme.text
     }
 
     Component.onCompleted: {
         if (Qt.platform.os === "android") {
             Material.theme = Material.System
-
             Material.primary = Material.Teal
             Material.accent = Material.BlueGrey
         }
@@ -33,6 +43,10 @@ Window {
     SystemPalette {
         id: systemTheme
         colorGroup: SystemPalette.Active
+        onColorGroupChanged: {
+            mainLoader.sourceComponent = undefined
+            mainLoader.sourceComponent = welcome
+        }
     }
 
     SplashScreenController {
@@ -40,6 +54,7 @@ Window {
     }
 
     Loader {
+        id: mainLoader
         anchors.fill: parent
         sourceComponent: welcome
         asynchronous: true
@@ -52,6 +67,8 @@ Window {
     }
     Component {
         id: welcome
-        Welcome {}
+        Welcome {
+            anchors.fill: parent
+        }
     }
 }

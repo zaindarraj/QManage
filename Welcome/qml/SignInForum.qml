@@ -5,8 +5,6 @@ import QtQuick.Shapes
 import Session 1.0
 
 Item {
-    property string email
-    property string password
 
     ColumnLayout {
         id: column
@@ -14,22 +12,9 @@ Item {
         anchors.centerIn: parent
 
         width: parent.width * 0.8
-        SessionController {
-            id: sessionController
-            onSessionReady: {
-                messageBox.textMessage = "Signed Inssssssss."
-                messageBox.startAnimation()
-            }
-            onErrorOccured: message => {
-                                messageBox.textMessage = message
 
-                                messageBox.startAnimation()
-                            }
-        }
-
-        Text {
+        Label {
             text: qsTr("Sign in")
-            color: rootWindow.getTextColor()
             font.pixelSize: 21
             Layout.alignment: Qt.AlignCenter
         }
@@ -38,22 +23,28 @@ Item {
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: parent.width
             placeholderText: qsTr("Email")
-            onTextChanged: {
-                email = text
+            horizontalAlignment: Text.AlignLeft //keep textfield's label in place if language input is RTL
+            text: signInViewModel.email
+            onTextEdited: {
+                signInViewModel.setEmail(text)
             }
         }
         TextField {
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: parent.width
+            horizontalAlignment: Text.AlignLeft //keep textfield's label in place if language input is RTL
+
             placeholderText: qsTr("Password")
             echoMode: TextField.Password
-            onTextChanged: {
-                password = text
+            text: signInViewModel.password
+            onTextEdited: {
+                signInViewModel.setPassword(text)
             }
         }
 
         Button {
             text: qsTr("Forgot password ? Reset.")
+
             flat: true
         }
 
@@ -62,7 +53,13 @@ Item {
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: parent.width * 0.35
             onClicked: {
-                sessionController.signIn(email, password)
+                if (signInViewModel.email === ""
+                        || signInViewModel.password === "") {
+                    messageBox.textMessage = "Please fill all fields"
+                    messageBox.startAnimation()
+                } else {
+                    signInViewModel.signIn()
+                }
             }
         }
     }
