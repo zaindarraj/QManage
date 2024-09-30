@@ -2,44 +2,65 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Shapes
+import Session 1.0
 
-ColumnLayout {
-    property string email
-    property string password
+Item {
 
-    Text {
-        text: qsTr("Sign in")
-        color: systemTheme.text
-        font.pixelSize: 21
-        Layout.alignment: Qt.AlignCenter
-    }
+    ColumnLayout {
+        id: column
+        spacing: 10
+        anchors.centerIn: parent
 
-    TextField {
-        Layout.alignment: Qt.AlignCenter
-        Layout.preferredWidth: parent.width
-        placeholderText: qsTr("Email")
-        onTextChanged: {
-            email = text
+        width: parent.width * 0.8
+
+        Label {
+            text: qsTr("Sign in")
+            font.pixelSize: 21
+            Layout.alignment: Qt.AlignCenter
         }
-    }
-    TextField {
-        Layout.alignment: Qt.AlignCenter
-        Layout.preferredWidth: parent.width
-        placeholderText: qsTr("Password")
-        echoMode: TextField.Password
-        onTextChanged: {
-            password = text
+
+        TextField {
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: parent.width
+            placeholderText: qsTr("Email")
+            horizontalAlignment: Text.AlignLeft //keep textfield's label in place if language input is RTL
+            text: signInViewModel.email
+            onTextEdited: {
+                signInViewModel.setEmail(text)
+            }
         }
-    }
+        TextField {
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: parent.width
+            horizontalAlignment: Text.AlignLeft //keep textfield's label in place if language input is RTL
 
-    Button {
-        text: qsTr("Forgot password ? Reset.")
-        flat: true
-    }
+            placeholderText: qsTr("Password")
+            echoMode: TextField.Password
+            text: signInViewModel.password
+            onTextEdited: {
+                signInViewModel.setPassword(text)
+            }
+        }
 
-    Button {
-        text: qsTr("Sign In")
-        Layout.alignment: Qt.AlignCenter
-        Layout.preferredWidth: parent.width * 0.35
+        Button {
+            text: qsTr("Forgot password ? Reset.")
+
+            flat: true
+        }
+
+        Button {
+            text: qsTr("Sign In")
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: parent.width * 0.35
+            onClicked: {
+                if (signInViewModel.email === ""
+                        || signInViewModel.password === "") {
+                    messageBox.textMessage = "Please fill all fields"
+                    messageBox.startAnimation()
+                } else {
+                    signInViewModel.signIn()
+                }
+            }
+        }
     }
 }
