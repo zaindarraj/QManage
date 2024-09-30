@@ -4,7 +4,7 @@ project(QManage VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Concurrent QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -22,10 +22,12 @@ qt_add_qml_module(appQManage
         QML_FILES
         SOURCES
         QML_FILES qml/Man.qml
+        QML_FILES Theming.qml
 )
 add_subdirectory(Welcome/)
 add_subdirectory(Android/)
-add_subdirectory(Resources//)
+add_subdirectory(Resources/)
+add_subdirectory(Session/)
 
 set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports CACHE STRING "" FORCE)
 
@@ -43,7 +45,7 @@ set_target_properties(appQManage PROPERTIES
 )
 
 target_link_libraries(appQManage
-    PRIVATE Qt6::Quick  welcome_libplugin android_libplugin resources_libplugin
+    PRIVATE Qt6::Quick Qt6::Concurrent Qt6::QuickControls2 Sessionplugin welcome_libplugin android_libplugin resources_libplugin
 )
 
 include(GNUInstallDirs)

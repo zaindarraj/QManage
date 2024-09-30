@@ -10,11 +10,8 @@ ColumnLayout {
     Text {
         text: "Q-Manage"
         font.bold: true
-        Layout.preferredHeight: layout.height * 0.2
         wrapMode: Text.WordWrap
-        color: systemTheme.text
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 10
+        color: rootWindow.getTextColor()
         font.pixelSize: 22
         Layout.preferredWidth: layout.width
         Layout.alignment: Qt.AlignCenter
@@ -22,11 +19,8 @@ ColumnLayout {
     }
     Text {
         text: "Manage Your Time Once and For All"
-        Layout.preferredHeight: layout.height * 0.2
         wrapMode: Text.WordWrap
-        color: systemTheme.text
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 13
+        color: rootWindow.getTextColor()
         font.pixelSize: 22
         Layout.preferredWidth: layout.width
         Layout.alignment: Qt.AlignCenter
@@ -100,5 +94,11 @@ ColumnLayout {
                 source: "/insta.png"
             }
         }
+    }
+
+    Button {
+        text: qsTr("Don't have an account? Sign up")
+        flat: true
+        Layout.alignment: Qt.AlignCenter
     }
 }
