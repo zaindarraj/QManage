@@ -100,6 +100,8 @@ Rectangle {
         }
         MyAnimatedShape {
             id: animatedShape
+
+
             Layout.alignment: Qt.AlignBottom
 
             WelcomeLayout {

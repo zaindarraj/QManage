@@ -1,10 +1,14 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
+import QtQuick.Controls.Material
+
 import QtQuick.Shapes
 
 Item {
     id: shapeItem
+
+
     function primaryColor() {
 
         if (Qt.platform.os === "android") {
@@ -49,44 +53,50 @@ Item {
 
     Loader {
         id: noMobileLoader
+        property double widthC: shapeItem.width
+        property double heightC: shapeItem.height
         anchors.fill: shapeItem
+        sourceComponent: nonMobile
     }
 
     Loader {
         id: mobileLoader
         anchors.fill: shapeItem
     }
+
     Component {
         id: nonMobile
+
         Shape {
+            id: mainShape
 
             ShapePath {
                 id: shapePath
-                strokeColor: primaryColor()
-                fillColor: primaryColor()
+                strokeColor: shapeItem.primaryColor()
+                fillColor: shapeItem.primaryColor()
                 property int joinStyleIndex: 0
 
                 property variant styles: [ShapePath.BevelJoin, ShapePath.MiterJoin, ShapePath.RoundJoin]
 
                 joinStyle: styles[joinStyleIndex]
 
-                startX: animatedShape.width / 2
+                startX: shapeItem.width / 2
                 startY: 0
 
                 PathCurve {
                     x: 0
-                    y: animatedShape.height / 2
+                    y: shapeItem.height/ 2
                 }
                 PathCurve {
-                    x: animatedShape.width / 2
-                    y: animatedShape.height
+                    x: shapeItem.width / 2
+                    y: shapeItem.height
                 }
                 PathLine {
-                    x: animatedShape.width
-                    y: animatedShape.height
+                    x:shapeItem.width
+                    y: shapeItem.height
                 }
                 PathLine {
-                    x: animatedShape.width
+                    x:shapeItem.width
                     y: 0
                 }
             }
@@ -108,7 +118,7 @@ Item {
                 joinStyle: styles[joinStyleIndex]
 
                 startX: 0
-                startY: animatedShape.height
+                startY: shapeItem.animatedShapeHeight
 
                 PathLine {
                     x: 0
