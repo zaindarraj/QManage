@@ -1,11 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Shapes
 
 Rectangle {
     id: messageBox
-    color: Qt.hsla(systemTheme.dark.hslHue, systemTheme.dark.hslSaturation,
+    color: Qt.platform.os == "android" ? Material.background: Qt.hsla(systemTheme.dark.hslHue, systemTheme.dark.hslSaturation,
                    systemTheme.dark.hslLightness, 0.9)
     border.color: getAccent()
     border.width: 1
@@ -63,7 +64,7 @@ Rectangle {
     Text {
         id: text
         anchors.centerIn: parent
-        color: systemTheme.text
-        text: textMessage
+        color: Qt.platform.os == "android" ?  Material.accent: systemTheme.accent
+        text: messageBox.textMessage
     }
 }
