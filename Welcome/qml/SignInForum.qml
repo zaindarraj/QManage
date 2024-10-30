@@ -55,7 +55,7 @@ Item {
             text: qsTr("Sign In")
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: column.width * 0.35
-            onButtonClicked: {
+            onButtonClicked:{
                 if (signInViewModel.email === ""
                         || signInViewModel.password === "") {
                     messageBox.textMessage = "Please fill all fields"

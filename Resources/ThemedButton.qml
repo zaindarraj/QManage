@@ -5,7 +5,7 @@ import QtQuick
 Item {
     id: rootButton
     required property string text
-    signal buttonClicked()
+    signal buttonClicked
 
 
 
@@ -18,7 +18,7 @@ Component{
     id: androidButton
     AndroidButton{
         text :rootButton.text
-        onClicked : rootButton.buttonClicked
+        onClicked : rootButton.buttonClicked()
     }
 }
 
@@ -26,7 +26,7 @@ Component{
         id: desktopButton
         DesktopButton{
             text :rootButton.text
-            onClicked : rootButton.buttonClicked
+            onClicked : rootButton.buttonClicked()
 
         }
     }
