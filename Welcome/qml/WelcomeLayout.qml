@@ -8,7 +8,7 @@ ColumnLayout {
     id: layout
 
     Text {
-        text: "Q-Manage"
+        text: "Q-Manage Me"
         font.bold: true
         wrapMode: Text.WordWrap
         color: rootWindow.getTextColor()
