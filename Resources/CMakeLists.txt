@@ -11,6 +11,9 @@ VERSION 1.0
 RESOURCES
 QML_FILES
 QML_FILES
+QML_FILES ThemedButton.qml
+QML_FILES AndroidButton.qml
+QML_FILES DesktopButton.qml
 
 )
 
