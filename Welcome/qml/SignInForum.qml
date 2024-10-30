@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Shapes
 import Session 1.0
+import Resources
 
 Item {
 
@@ -48,11 +49,13 @@ Item {
             flat: true
         }
 
-        Button {
+        ThemedButton
+        {
+
             text: qsTr("Sign In")
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: parent.width * 0.35
-            onClicked: {
+            Layout.preferredWidth: column.width * 0.35
+            onButtonClicked:{
                 if (signInViewModel.email === ""
                         || signInViewModel.password === "") {
                     messageBox.textMessage = "Please fill all fields"

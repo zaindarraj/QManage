@@ -1,10 +1,28 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Window
 import QtQuick.Shapes
 
 Item {
     id: shapeItem
+
+    property double windowHeight : Window.height
+    property double windowWidth : Window.width
+
+    Window.onHeightChanged : {
+        windowHeight = Window.height
+
+    }
+
+    Window.onWidthChanged : {
+        windowHeight = Window.width
+
+    }
+
+
+
     function primaryColor() {
 
         if (Qt.platform.os === "android") {
@@ -17,76 +35,91 @@ Item {
     states: [
         State {
             name: "Non-Mobile"
-            when: welocmeRootElement.height < welocmeRootElement.width
+            when: shapeItem.windowHeight < shapeItem.windowWidth
             PropertyChanges {
-                target: noMobileLoader
-                sourceComponent: nonMobile
+                noMobileLoader{
+                    sourceComponent: nonMobile
+                }
+
             }
             PropertyChanges {
-                target: mobileLoader
-                sourceComponent: undefined
+                mobileLoader{
+                    sourceComponent: undefined
+                }
+
             }
         },
 
         State {
             name: "Mobile"
-            when: welocmeRootElement.height > welocmeRootElement.width
+            when: shapeItem.windowHeight > shapeItem.windowWidth
             PropertyChanges {
-                target: mobileLoader
+                mobileLoader{
                 sourceComponent: mobile
             }
+            }
+
             PropertyChanges {
-                target: noMobileLoader
-                sourceComponent: undefined
+                noMobileLoader{
+                    sourceComponent: undefined
+
+                }
+
             }
         },
 
         State {
             name: "Non"
-            when: animatedShape.height = 0
+            when: shapeItem.height = 0
         }
     ]
 
     Loader {
         id: noMobileLoader
+        property double widthC: shapeItem.width
+        property double heightC: shapeItem.height
         anchors.fill: shapeItem
+        sourceComponent: nonMobile
     }
 
     Loader {
         id: mobileLoader
         anchors.fill: shapeItem
     }
+
     Component {
         id: nonMobile
+
         Shape {
+            id: mainShape
 
             ShapePath {
                 id: shapePath
-                strokeColor: primaryColor()
-                fillColor: primaryColor()
+                strokeColor: shapeItem.primaryColor()
+                fillColor: shapeItem.primaryColor()
                 property int joinStyleIndex: 0
 
                 property variant styles: [ShapePath.BevelJoin, ShapePath.MiterJoin, ShapePath.RoundJoin]
 
                 joinStyle: styles[joinStyleIndex]
 
-                startX: animatedShape.width / 2
+                startX: shapeItem.width / 2
                 startY: 0
 
                 PathCurve {
                     x: 0
-                    y: animatedShape.height / 2
+                    y: shapeItem.height/ 2
                 }
                 PathCurve {
-                    x: animatedShape.width / 2
-                    y: animatedShape.height
+                    x: shapeItem.width / 2
+                    y: shapeItem.height
                 }
                 PathLine {
-                    x: animatedShape.width
-                    y: animatedShape.height
+                    x:shapeItem.width
+                    y: shapeItem.height
                 }
                 PathLine {
-                    x: animatedShape.width
+                    x:shapeItem.width
                     y: 0
                 }
             }
@@ -99,8 +132,8 @@ Item {
 
             ShapePath {
                 id: mobileShape
-                strokeColor: primaryColor()
-                fillColor: primaryColor()
+                strokeColor: shapeItem.primaryColor()
+                fillColor: shapeItem.primaryColor()
                 property int joinStyleIndex: 0
 
                 property variant styles: [ShapePath.BevelJoin, ShapePath.MiterJoin, ShapePath.RoundJoin]
@@ -108,23 +141,23 @@ Item {
                 joinStyle: styles[joinStyleIndex]
 
                 startX: 0
-                startY: animatedShape.height
+                startY: shapeItem.height
 
                 PathLine {
                     x: 0
-                    y: animatedShape.height * 0.4
+                    y: shapeItem.height * 0.4
                 }
                 PathCurve {
-                    x: animatedShape.width / 2
+                    x: shapeItem.width / 2
                     y: 0
                 }
                 PathCurve {
-                    x: animatedShape.width
-                    y: animatedShape.height * 0.4
+                    x: shapeItem.width
+                    y: shapeItem.height * 0.4
                 }
                 PathLine {
-                    x: animatedShape.width
-                    y: animatedShape.height
+                    x: shapeItem.width
+                    y: shapeItem.height
                 }
             }
         }
